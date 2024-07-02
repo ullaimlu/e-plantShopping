@@ -5,7 +5,7 @@ import './CartItems.css'
 
 function CartItems(){
     const cartItems = useSelector(state=>state.cart.cartItems)
-    const totalAmount = cartItems.reduce((total, item)=>total + item.cost * item.quantity, 0)
+    const totalAmount = cartItems.reduce((total, item)=>total + parseFloat(item.cost.replace('$', '')) * item.quantity, 0)
     const dispatch = useDispatch()
 
     function handleRemove(itemId){
@@ -26,10 +26,15 @@ function CartItems(){
     }
 
    
-    function calculateTotalCost(item){
-        const total = item.cost *item.quantity;
+    function calculateTotalCost(item) {
+        // Remover el signo de dólar y convertir el costo a un número
+        const cost = parseFloat(item.cost.replace('$', ''));
+        const total = cost * item.quantity;
         return total;
     }
+    const handleContinueShopping = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
     return(
         <div className="cart-container">
       <h2 style={{ color: 'black' }}>Total Cart Amount: ${totalAmount}</h2>
@@ -52,11 +57,7 @@ function CartItems(){
         ))}
       </div>
       <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'></div>
-      <div className="continue_shopping_btn">
-        <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
-        <br />
-        <button className="get-started-button1" onClick={(e) => handleCheckoutShopping(e)}>Checkout</button>
-      </div>
+      
     </div>
   );
 }

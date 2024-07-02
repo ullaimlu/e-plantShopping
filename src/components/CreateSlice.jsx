@@ -16,7 +16,9 @@ const CartSlice = createSlice({
             }
             else{
                 state.cartItems.push({...action.payload, quantity:1})
+                
             }
+            state.totalItemsCount = (state.totalItemsCount || 0) + 1;
         },
 
         removeItemFromCart(state, action){
